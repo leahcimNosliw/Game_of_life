@@ -2,10 +2,13 @@
 *.pydevproject*
 *pycache*
 *.pyc
-env/
+*env/
 *.swp
 *.swo
 *.sqlite
 *.egg-info/
 .idea
 .settings
+*.egg-info*
+*htmlcov*
+.coverage

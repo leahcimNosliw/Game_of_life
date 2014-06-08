@@ -1,111 +1,113 @@
 ## The overarching template file with headers and more
-<%inherit file="projectconway:templates/template.mako" />
 
-<%block name="content">
-	<link href="static/css/projectConway.css" rel="stylesheet">
-	
-	<div class="container">
-        <div class="row">
-            <div class="col-xs-9 col-sm-7 col-md-5 col-xs-offset-1 col-sm-offset-2 col-md-offset-3" id="canvas-container">
-                <canvas id="pattern_input"></canvas>
-            </div>
+<%inherit file="template_pattern_creation.mako" />
+<%namespace name="rule_texts" file="rule_texts.mako" />
 
-            <div class="col-xs-1 col-sm-2 col-md-3">
-                <button id="submit_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#loading_popup">Submit</button>
-            </div>
-            
-            <div class="col-xs-1 col-sm-2 col-md-3">
-            	<button id="clear_button" type="button" class="btn btn-primary">Clear</button>
-            </div>
+<%block name="small_text">
+    <div class="col-md-12">
+        <h2>Give it a go!</h2>
+        <p>This is where you create your pattern!</p>
+        <p>Click a cell to begin!</p>
+         <p><a href="/tutorial-1" class="btn btn-primary btn-large">Tutorial</a></p>
+    </div>
+</%block>
 
-            <div class="modal fade" id="loading_popup" role="dialog" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <p class="loading_popup_txt">Loading...</p>
-                            <img class="loading_image" src="static/images/loading.gif"/>
-                        </div>
-                    </div>
+<%block name="large_text">
+    <div class="col-md-12">
+        <h3>Rules</h3>
+        <p>Here is a quick reminder of the rules:</p>
+        <ol>
+            <li>${rule_texts.rule_one()}</li>
+            <li>${rule_texts.rule_two()}</li>
+            <li>${rule_texts.rule_three()}</li>
+            <li>${rule_texts.rule_four()}</li>
+        </ol>
+    </div>
+</%block>
+
+<%block name="extras">
+    <div class="col-xs-11 col-md-10 col-md-offset-2">
+        <button id="clear_button" type="button" class="btn btn-default left-button">Clear</button>
+        <button id="submit_button" type="button" class="btn btn-primary right-button" data-toggle="modal" data-target="#loading_popup">Submit</button>
+    </div>
+
+    <div class="alert alert-danger alert-block in" id="error_alert">
+        <button type="button" class="close" id="closealert_button">x</button>
+        <h4>Opps! There has been an error:</h4>
+        <div id="error_content"></div>
+    </div>
+
+    <div class="modal fade" id="loading_popup" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p class="loading_popup_txt">Loading...</p>
+                    <img class="loading_image" src="static/images/loading.gif"/>
                 </div>
             </div>
-        </div>
-
-        <div class="modal fade" id="success_popup" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4>Success!</h4>
-                    </div>
-                    <div class="modal-body">
-                       	<div id="success_content"></div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="#">Next</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="modal fade" id="clear_warning" role="dialog" aria-hidden="true">
-        	<div class="modal-dialog">
-        		<div class="modal-content">
-        			<div class="modal-header">
-        				<h4>Warning!</h4>
-        			</div>
-        			
-        			<div class="modal-body">
-        				<div id="warning_content"></div>
-        			</div>
-        			
-        			<div class="modal-footer">
-        				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        				<button type="button" class="btn btn-danger" id="clearconfirm_button" "data-dismiss="modal">Clear</button>
-        			</div>
-        		</div>
-        	</div>
-        </div>
-		
-        <div class="alert alert-danger alert-block in" id="error_alert">
-            <button type="button" class="close" id="closealert_button">x</button>
-            <h4>Opps! There has been an error:</h4>
-            <div id="error_content"></div>
         </div>
     </div>
-		
+
+    <div class="modal fade" id="success_popup" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Success!</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div id="success_content"></div>
+                </div>
+
+                <div class="modal-footer">
+                    <form method="post">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button name="create_page" type="submit" class="btn btn-primary" value="scheduler">Next</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="clear_warning" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Warning!</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div id="warning_content"></div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="clearconfirm_button" data-dismiss="modal">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </%block>
 
 <%block name="scripts">
-        <script src="static/js/jcanvas.js"></script>
-        <script src="static/js/inputGrid.js"></script>
-        <script src="static/js/patternSubmission.js"></script>
-        <script src="static/js/patternClear.js"></script>
-        <script src="static/js/ajaxError.js"></script>
-        <script>
-            <%
-                from game_of_life import X_CELLS, Y_CELLS
-                x_cells = str(X_CELLS)
-                y_cells = str(Y_CELLS)
-            %>
-            $(document).ready(function() {
-                // Setup grid
-                var g = new CanvasGrid("#pattern_input", ${x_cells}, ${y_cells});
-                g.setup();
-                // Check the variable has been passed in
-                % if pattern:
-                    g.setGridPattern("${pattern}");
-                % endif
+    <script src="static/js/create/patternSubmission.js"></script>
+    <script src="static/js/create/patternClear.js"></script>
+    <script src="static/js/create/ajaxError.js"></script>
 
-                // Set up pattern submission
-                var s = new Submitter(g);
-                $("#submit_button").click(s.submissionEventHandler);
-                $('#closealert_button').click(s.alertCloseHandler);
-                
-                // Set up pattern clearer
-                var c = new Clearer(g);
-                $("#clear_button").click(c.clearEventHandler);
-                $("#clearconfirm_button").click(c.clearConfirmEventHandler);
-                $('#closealert_button').click(c.alertCloseHandler);
-            });
-        </script>
+    <script>
+        $(document).ready(function() {
+            var g = window.g;
+
+            // Set up pattern submission
+            var s = new Submitter(g);
+            $("#submit_button").click(s.submissionEventHandler);
+            $('#closealert_button').click(s.alertCloseHandler);
+
+            // Set up pattern clearer
+            var c = new Clearer(g);
+            $("#clear_button").click(c.clearEventHandler);
+            $("#clearconfirm_button").click(c.clearConfirmEventHandler);
+            $('#closealert_button').click(c.alertCloseHandler);
+        });
+    </script>
 </%block>
